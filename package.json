@@ -1,0 +1,29 @@
+{
+  "name": "onja-weather-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lightme-fan/onja-weather-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lightme-fan/onja-weather-app/issues"
+  },
+  "homepage": "https://github.com/lightme-fan/onja-weather-app#readme",
+  "browserslist": [
+    "last 1 chrome versions"
+  ],
+  "dependencies": {
+    "axios": "^0.21.1",
+    "re": "^0.1.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0"
+  }
+}
