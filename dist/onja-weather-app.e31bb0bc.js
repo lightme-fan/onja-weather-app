@@ -35811,8 +35811,12 @@ function HighlightWeather() {
     isLoading,
     weather
   } = (0, _react.useContext)(_ContextProvider.Context);
+
+  function fixed(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+
   const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id));
-  console.log(weatherDay);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight"
   }, /*#__PURE__*/_react.default.createElement("h3", {
@@ -35825,7 +35829,7 @@ function HighlightWeather() {
     className: "highlight_content-heading"
   }, "Wind Status"), /*#__PURE__*/_react.default.createElement("h4", {
     className: "highlight_content-desc"
-  }, weatherDay.wind_speed, " mph"), /*#__PURE__*/_react.default.createElement("p", {
+  }, fixed(weatherDay.wind_speed), " mph"), /*#__PURE__*/_react.default.createElement("p", {
     className: "highlight_content-wind"
   }, weatherDay.wind_direction_compass)), /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight_content"
@@ -35845,7 +35849,7 @@ function HighlightWeather() {
     className: "highlight_content-heading"
   }, "Visibility"), /*#__PURE__*/_react.default.createElement("h4", {
     className: "highlight_content-desc"
-  }, weatherDay.visibility, " miles")), /*#__PURE__*/_react.default.createElement("div", {
+  }, fixed(weatherDay.visibility), " miles")), /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight_content"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "highlight_content-heading"
@@ -35855,24 +35859,6 @@ function HighlightWeather() {
 }
 
 var _default = HighlightWeather;
-/*
-air_pressure: 1022.5
-applicable_date: "2021-01-17"
-created: "2021-01-13T03:20:04.270836Z"
-humidity: 77
-id: 5787410416795648
-max_temp: 8.18
-min_temp: 3.825
-predictability: 75
-the_temp: 6.5
-visibility: 14.276935198441103
-weather_state_abbr: "lr"
-weather_state_name: "Light Rain"
-wind_direction: 305.58886737520726
-wind_direction_compass: "NW"
-wind_speed: 6.698620869779158
-*/
-
 exports.default = _default;
 },{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./DateFormat":"components/DateFormat.js","./ContextProvider":"components/ContextProvider.js"}],"components/InputSearch.js":[function(require,module,exports) {
 "use strict";
@@ -35948,13 +35934,6 @@ function NextWeather({
   const day5 = !isLoading && weather && weather.consolidated_weather[3];
   const day6 = !isLoading && weather && weather.consolidated_weather[4];
   const weekWeather = [day2, day3, day4, day5, day6];
-
-  function hancleClickbutton(e) {
-    const findDay = !isLoading && weekWeather && weekWeather.find(day => day.id === Number(e.target.id));
-    console.log(findDay);
-    setNextDayWeather(findDay);
-  }
-
   const highlight = !isLoading && nextDayWeather;
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "next_weather"
@@ -35967,7 +35946,10 @@ function NextWeather({
       key: day.id
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "day"
-    }, i === 0 ? 'Tomorrow' : (0, _DateFormat.default)(day.applicable_date)), /*#__PURE__*/_react.default.createElement("div", {
+    }, i === 0 ? 'Tomorrow' : (0, _DateFormat.default)(day.applicable_date)), /*#__PURE__*/_react.default.createElement("img", {
+      src: `https://www.metaweather.com//static/img/weather/${day.weather_state_abbr}.svg`,
+      alt: day.title
+    }), /*#__PURE__*/_react.default.createElement("div", {
       className: "temperature"
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "max_temp"
@@ -35978,26 +35960,100 @@ function NextWeather({
 }
 
 var _default = NextWeather;
-/*
-air_pressure: 1015.5
-applicable_date: "2021-01-16"
-created: "2021-01-12T09:20:03.669384Z"
-humidity: 88
-id: 5444699675426816
-max_temp: 8.235
-min_temp: 1.5050000000000001
-predictability: 77
-the_temp: 6.0649999999999995
-visibility: 6.433677324425355
-weather_state_abbr: "hr"
-weather_state_name: "Heavy Rain"
-wind_direction: 175.84305613064407
-wind_direction_compass: "S"
-wind_speed: 6.318748104806597
-*/
-
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ContextProvider":"components/ContextProvider.js","./DateFormat":"components/DateFormat.js"}],"components/WeatherDetails.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ContextProvider":"components/ContextProvider.js","./DateFormat":"components/DateFormat.js"}],"images/Clear.png":[function(require,module,exports) {
+module.exports = "/Clear.de8c0458.png";
+},{}],"images/Hail.png":[function(require,module,exports) {
+module.exports = "/Hail.a6d1192b.png";
+},{}],"images/HeavyCloud.png":[function(require,module,exports) {
+module.exports = "/HeavyCloud.d46df0ac.png";
+},{}],"images/HeavyRain.png":[function(require,module,exports) {
+module.exports = "/HeavyRain.355477f0.png";
+},{}],"images/LightCloud.png":[function(require,module,exports) {
+module.exports = "/LightCloud.2b9d346f.png";
+},{}],"images/LightRain.png":[function(require,module,exports) {
+module.exports = "/LightRain.f431ec06.png";
+},{}],"images/Shower.png":[function(require,module,exports) {
+module.exports = "/Shower.7ecd5573.png";
+},{}],"images/Sleet.png":[function(require,module,exports) {
+module.exports = "/Sleet.665e98b8.png";
+},{}],"images/Snow.png":[function(require,module,exports) {
+module.exports = "/Snow.a6a7ae2a.png";
+},{}],"images/Thunderstorm.png":[function(require,module,exports) {
+module.exports = "/Thunderstorm.f3cbf5ac.png";
+},{}],"weatherImages.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Clear = _interopRequireDefault(require("./images/Clear.png"));
+
+var _Hail = _interopRequireDefault(require("./images/Hail.png"));
+
+var _HeavyCloud = _interopRequireDefault(require("./images/HeavyCloud.png"));
+
+var _HeavyRain = _interopRequireDefault(require("./images/HeavyRain.png"));
+
+var _LightCloud = _interopRequireDefault(require("./images/LightCloud.png"));
+
+var _LightRain = _interopRequireDefault(require("./images/LightRain.png"));
+
+var _Shower = _interopRequireDefault(require("./images/Shower.png"));
+
+var _Sleet = _interopRequireDefault(require("./images/Sleet.png"));
+
+var _Snow = _interopRequireDefault(require("./images/Snow.png"));
+
+var _Thunderstorm = _interopRequireDefault(require("./images/Thunderstorm.png"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = [{
+  id: 1,
+  title: 'Clear',
+  image: _Clear.default
+}, {
+  id: 2,
+  title: 'Hail',
+  image: _Hail.default
+}, {
+  id: 3,
+  title: 'Heavy Cloud',
+  image: _HeavyCloud.default
+}, {
+  id: 4,
+  title: 'Heavy Rain',
+  image: _HeavyRain.default
+}, {
+  id: 5,
+  title: 'Light Cloud',
+  image: _LightCloud.default
+}, {
+  id: 6,
+  title: 'Light Rain',
+  image: _LightRain.default
+}, {
+  id: 8,
+  title: 'Showers',
+  image: _Shower.default
+}, {
+  id: 9,
+  title: 'Sleet',
+  image: _Sleet.default
+}, {
+  id: 10,
+  title: 'Snow',
+  image: _Snow.default
+}, {
+  id: 9,
+  title: 'Thunderstorm',
+  image: _Thunderstorm.default
+}];
+exports.default = _default;
+},{"./images/Clear.png":"images/Clear.png","./images/Hail.png":"images/Hail.png","./images/HeavyCloud.png":"images/HeavyCloud.png","./images/HeavyRain.png":"images/HeavyRain.png","./images/LightCloud.png":"images/LightCloud.png","./images/LightRain.png":"images/LightRain.png","./images/Shower.png":"images/Shower.png","./images/Sleet.png":"images/Sleet.png","./images/Snow.png":"images/Snow.png","./images/Thunderstorm.png":"images/Thunderstorm.png"}],"components/WeatherDetails.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36011,6 +36067,8 @@ var _ContextProvider = require("./ContextProvider");
 
 var _DateFormat = _interopRequireDefault(require("./DateFormat"));
 
+var _weatherImages = _interopRequireDefault(require("../weatherImages"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -36023,10 +36081,12 @@ function WeatherDetails() {
     weather
   } = (0, _react.useContext)(_ContextProvider.Context);
   const dailyWeather = !isLoading && weather && weather.consolidated_weather[0];
-  console.log(!isLoading && weather && weather.consolidated_weather);
   return /*#__PURE__*/_react.default.createElement("div", null, isLoading ? /*#__PURE__*/_react.default.createElement("h2", null, "Loading...") : /*#__PURE__*/_react.default.createElement("div", {
     className: "weather_detail"
-  }, /*#__PURE__*/_react.default.createElement("h2", {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: `https://www.metaweather.com//static/img/weather/${dailyWeather.weather_state_abbr}.svg`,
+    alt: dailyWeather.title
+  }), /*#__PURE__*/_react.default.createElement("h2", {
     className: "weather_temp"
   }, dailyWeather.the_temp.toFixed(0), " \xB0C"), /*#__PURE__*/_react.default.createElement("h3", {
     className: "weather_state_name"
@@ -36039,7 +36099,7 @@ function WeatherDetails() {
 
 var _default = WeatherDetails;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./ContextProvider":"components/ContextProvider.js","./DateFormat":"components/DateFormat.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./ContextProvider":"components/ContextProvider.js","./DateFormat":"components/DateFormat.js","../weatherImages":"weatherImages.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36119,7 +36179,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62080" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64387" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
