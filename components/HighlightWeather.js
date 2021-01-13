@@ -13,7 +13,7 @@ function HighlightWeather() {
     }      
 
     const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id))
-    
+    console.log(weatherDay);
     return (
         <div className="highlight">
             <h3 className="highlight_heading">{DateFormat(weatherDay.applicable_date)} Highlight</h3> 

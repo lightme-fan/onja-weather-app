@@ -10,6 +10,10 @@ body {
     height: 100%;
 }
 
+img {
+    width: 100%;
+}
+
 @media (min-width: 800px) {
     .container {
         display: grid;

@@ -10,6 +10,10 @@ body {
   height: 100%;
 }
 
+img {
+  width: 100%;
+}
+
 @media (min-width: 800px) {
   .container {
     display: grid;
@@ -39,11 +43,18 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
-  gap: 70px;
+  gap: 30px;
+  text-align: center;
 }
 
 .weather_temp {
   font-size: 4rem;
+  margin: 0;
+}
+
+.weather_state_name,
+.weather_today {
+  margin: 0;
 }
 
 .next_weather {

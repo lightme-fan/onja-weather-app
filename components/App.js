@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import HighlightWeather from './HighlightWeather'
 
+import { Context } from '././ContextProvider'
+import HighlightWeather from './HighlightWeather'
 import InputSearch from './InputSearch'
 import NextWeather from './NextWeather'
 import WeatherDetails from './WeatherDetails'
@@ -16,17 +17,12 @@ function App() {
             </div>
 
             <div className="content-2">
-                {isLoading ?
-                    <h2>Loading....</h2> :
-                    <>
-                        <NextWeather/>
-                        <Switch>
-                            <Route path="/home/:id">
-                                <HighlightWeather/>
-                            </Route>
-                        </Switch>
-                    </>
-                }
+                <NextWeather/>
+                <Switch>
+                    <Route path="/home/:id">
+                        <HighlightWeather/>
+                    </Route>
+                </Switch>
             </div>
         </div>
     )

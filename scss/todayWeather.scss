@@ -3,9 +3,16 @@
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
-    gap: 70px
+    gap: 30px;
+    text-align: center;
 }
 
 .weather_temp {
     font-size: 4rem;
+    margin: 0;
+}
+
+.weather_state_name,
+.weather_today {
+    margin: 0;
 }
