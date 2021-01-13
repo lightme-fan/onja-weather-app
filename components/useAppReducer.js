@@ -32,7 +32,6 @@ function useAppReducer() {
     const [ state, dispatch ] = useReducer(reducer, initialValue)
     
     const [location, setLocation ] = useState('London')
-    const [ weatherLocation, setWeatherLocation ] = useState([])
     
     const fetchedDataByLocation = async () => {
         const res = await axios(`${CORS_URL}/${KEY_URL}/${LOCATION_URL}${location}`)

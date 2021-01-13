@@ -1,4 +1,5 @@
 import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import HighlightWeather from './HighlightWeather'
 
 import InputSearch from './InputSearch'
@@ -7,14 +8,18 @@ import WeatherDetails from './WeatherDetails'
 
 function App() {
     return (
-        <div>
-            <div>
+        <div className="container">
+            <div className="content-1">
                 <InputSearch/>
                 <WeatherDetails/>
             </div>
-            <div>
+            <div className="content-2">
                 <NextWeather/>
-                <HighlightWeather/>
+                <Switch>
+                    <Route path="/home/:id">
+                        <HighlightWeather/>
+                    </Route>
+                </Switch>
             </div>
         </div>
     )

@@ -1,0 +1,41 @@
+.next_weather {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3%;
+    margin: 1rem;
+}
+
+.weather_this-day-detail {
+    color: white;
+    text-decoration: none;
+    margin-top: 2rem;
+}
+
+.weather_this-day {
+    background-color: hsl(234deg 32% 17%);
+    padding: 3%;
+    text-align: center;
+}
+
+.day {
+    font-size: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.temperature {
+    display: flex;
+    justify-content: space-around;
+}
+
+.min_temp {
+    opacity: 0.5;
+}
+
+@media (min-width: 800px) {
+    .next_weather {
+        display: flex;
+        justify-content: space-between;
+    
+    }
+
+}

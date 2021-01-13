@@ -8,9 +8,9 @@ function InputSearch() {
     }
 
     return (
-        <form onSubmit={handleSearchSubmit}>
-            <input type="text" name='inputValue' value={inputValue} onChange={e => setInputValue(e.target.value)}/>
-            <button>Search</button>
+        <form onSubmit={handleSearchSubmit} className="search_form">
+            <input className="input_search" type="text" name='inputValue' placeholder="Search for places" value={inputValue} onChange={e => setInputValue(e.target.value)}/>
+            <button className="button_search">Search</button>
         </form>
     )
 }

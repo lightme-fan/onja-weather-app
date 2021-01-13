@@ -1,0 +1,138 @@
+body {
+  background-color: #000000;
+  color: #ffffff;
+  margin: 0;
+}
+
+.content-1 {
+  background-color: #1d2039;
+  padding: 2rem;
+  height: 100%;
+}
+
+@media (min-width: 800px) {
+  .container {
+    display: grid;
+    grid-template-columns: 27% 1fr;
+    gap: 3%;
+  }
+}
+.search_form {
+  width: 100%;
+  display: flex;
+}
+
+.input_search {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 4%;
+}
+
+.button_search {
+  padding: 0.85rem 1.3%;
+  margin-left: 1rem;
+}
+
+.weather_detail {
+  margin-top: 6rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  gap: 70px;
+}
+
+.weather_temp {
+  font-size: 4rem;
+}
+
+.next_weather {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3%;
+  margin: 1rem;
+}
+
+.weather_this-day-detail {
+  color: white;
+  text-decoration: none;
+  margin-top: 2rem;
+}
+
+.weather_this-day {
+  background-color: #1d2039;
+  padding: 3%;
+  text-align: center;
+}
+
+.day {
+  font-size: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.temperature {
+  display: flex;
+  justify-content: space-around;
+}
+
+.min_temp {
+  opacity: 0.5;
+}
+
+@media (min-width: 800px) {
+  .next_weather {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.highlight {
+  margin: 1rem;
+  margin-top: 4rem;
+}
+
+.highlight_heading {
+  font-size: 3rem;
+  margin: 1.5rem;
+}
+
+.highlight_content {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1d2039;
+  margin: 1.5rem;
+}
+
+.highlight_content-heading,
+.highlight_content-wind {
+  font-size: 2rem;
+}
+
+.highlight_content-desc {
+  font-size: 3rem;
+  margin: 1rem;
+}
+
+.label_progress div {
+  display: flex;
+  justify-content: space-between;
+}
+
+progress {
+  padding: 1rem;
+  width: 100%;
+  color: red;
+}
+
+@media (min-width: 800px) {
+  .highlight_detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .highlight_content {
+    margin: 0;
+  }
+}
+
+/*# sourceMappingURL=/scss.6b84482b.css.map */

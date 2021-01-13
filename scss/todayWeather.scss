@@ -1,0 +1,11 @@
+.weather_detail {
+    margin-top: 6rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 70px
+}
+
+.weather_temp {
+    font-size: 4rem;
+}
