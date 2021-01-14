@@ -7,17 +7,45 @@ body {
 .content-1 {
     background-color: hsl(234deg 32% 17%);
     padding: 2rem;
-    height: 100%;
+    padding-top: 4rem;
+    max-height: 100%;
+    overflow-y: scroll;
+    height: 700px;
+}
+
+.content-2 {
+    max-height: 100%;
+    height: 700px;
+    padding-top: 2rem;
 }
 
 img {
     width: 100%;
 }
 
+.loading {
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 50%;
+}
+
 @media (min-width: 800px) {
+
+    body {
+        overflow-y: hidden;
+    }
+
     .container {
         display: grid;
         grid-template-columns: 27% 1fr;
         gap: 3%;
+    }
+
+    .content-1 {
+        overflow-y: hidden;
+    }
+
+    .content-2 {
+        overflow-y: scroll;
     }
 }

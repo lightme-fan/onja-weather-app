@@ -35714,7 +35714,7 @@ function useAppReducer() {
   (0, _react.useEffect)(() => {
     fetchedDataByLocation();
   }, []);
-  return [state, dispatch, location, setLocation];
+  return [state, dispatch, location, setLocation, fetchedDataByLocation];
 }
 
 var _default = useAppReducer;
@@ -35744,7 +35744,7 @@ exports.Context = Context;
 function ContextProvider({
   children
 }) {
-  const [state, dispatch, location, setLocation] = (0, _useAppReducer.default)();
+  const [state, dispatch, location, setLocation, fetchedDataByLocation] = (0, _useAppReducer.default)();
   const {
     isLoading,
     weather
@@ -35755,7 +35755,8 @@ function ContextProvider({
       weather,
       dispatch,
       location,
-      setLocation
+      setLocation,
+      fetchedDataByLocation
     }
   }, children);
 }
@@ -35772,7 +35773,7 @@ var _react = _interopRequireDefault(require("react"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function DateFormat(date) {
-  const day = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
   let dateFormat = new Date(date);
   let newDay = day[dateFormat.getDay()];
@@ -35816,11 +35817,10 @@ function HighlightWeather() {
 
   function fixed(x) {
     return Number.parseFloat(x).toFixed(2);
-  } // const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id))
-
+  }
 
   const weatherDay = !isLoading && weather && weather.consolidated_weather[0];
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isLoading ? /*#__PURE__*/_react.default.createElement("h2", null, "Loading....") : /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight"
   }, /*#__PURE__*/_react.default.createElement("h3", {
     className: "highlight_heading"
@@ -35863,6 +35863,86 @@ function HighlightWeather() {
 
 var _default = HighlightWeather;
 exports.default = _default;
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./DateFormat":"components/DateFormat.js","./ContextProvider":"components/ContextProvider.js"}],"components/AnotherHighlight.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+var _DateFormat = _interopRequireDefault(require("./DateFormat"));
+
+var _ContextProvider = require("./ContextProvider");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function AnotherHighlight() {
+  let {
+    id
+  } = (0, _reactRouterDom.useParams)();
+  console.log(id);
+  const {
+    isLoading,
+    weather
+  } = (0, _react.useContext)(_ContextProvider.Context);
+
+  function fixed(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+
+  const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id));
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "highlight"
+  }, /*#__PURE__*/_react.default.createElement("h3", {
+    className: "highlight_heading"
+  }, (0, _DateFormat.default)(weatherDay.applicable_date), " Highlight"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "highlight_detail"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "highlight_content"
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "highlight_content-heading"
+  }, "Wind Status"), /*#__PURE__*/_react.default.createElement("h4", {
+    className: "highlight_content-desc"
+  }, fixed(weatherDay.wind_speed), " mph"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "highlight_content-wind"
+  }, weatherDay.wind_direction_compass)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "highlight_content"
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "highlight_content-heading"
+  }, "Humidity"), /*#__PURE__*/_react.default.createElement("h4", {
+    className: "highlight_content-desc"
+  }, weatherDay.humidity, " %"), /*#__PURE__*/_react.default.createElement("label", {
+    className: "label_progress"
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, "01"), /*#__PURE__*/_react.default.createElement("div", null, "50"), /*#__PURE__*/_react.default.createElement("div", null, "500")), /*#__PURE__*/_react.default.createElement("progress", {
+    id: "file",
+    max: "100",
+    value: weatherDay.humidity
+  }))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "highlight_content"
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "highlight_content-heading"
+  }, "Visibility"), /*#__PURE__*/_react.default.createElement("h4", {
+    className: "highlight_content-desc"
+  }, fixed(weatherDay.visibility), " miles")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "highlight_content"
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "highlight_content-heading"
+  }, "Air Pressure"), /*#__PURE__*/_react.default.createElement("h4", {
+    className: "highlight_content-desc"
+  }, weatherDay.air_pressure, " mb")))));
+}
+
+var _default = AnotherHighlight;
+exports.default = _default;
 },{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./DateFormat":"components/DateFormat.js","./ContextProvider":"components/ContextProvider.js"}],"components/InputSearch.js":[function(require,module,exports) {
 "use strict";
 
@@ -35883,29 +35963,57 @@ function InputSearch() {
   const {
     state,
     location,
-    setLocation
+    setLocation,
+    fetchedDataByLocation
   } = (0, _react.useContext)(_ContextProvider.Context);
-  const [inputValue, setInputValue] = (0, _react.useState)('');
+  const [isWorking, setIsWorking] = (0, _react.useState)(false);
+  const [classList, setClassList] = (0, _react.useState)("");
+  const [locationValue, setLocationValue] = (0, _react.useState)("");
+
+  function handleClickSearchButton() {
+    setIsWorking(true);
+    setClassList("open");
+  }
 
   function handleSearchSubmit(e) {
     e.preventDefault();
-    setLocation(inputValue);
+    setLocationValue(location);
   }
 
-  console.log(state);
-  return /*#__PURE__*/_react.default.createElement("form", {
+  function handleClickCancel() {
+    setClassList("remove");
+  }
+
+  function handleNewLocationClick() {
+    fetchedDataByLocation();
+    setLocationValue('');
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "search_container"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "search_button",
+    onClick: handleClickSearchButton
+  }, "Search for places"), isWorking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("form", {
     onSubmit: handleSearchSubmit,
-    className: "search_form"
-  }, /*#__PURE__*/_react.default.createElement("input", {
+    className: `search_form ${classList}`
+  }, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: handleClickCancel,
+    className: "cancel"
+  }, "X"), /*#__PURE__*/_react.default.createElement("input", {
     className: "input_search",
     type: "text",
-    name: "inputValue",
-    value: inputValue,
-    placeholder: "Search for places",
-    onChange: e => setInputValue(e.target.value)
+    name: "location",
+    value: location,
+    onChange: e => setLocation(e.target.value)
   }), /*#__PURE__*/_react.default.createElement("button", {
     className: "button_search"
-  }, "Search"));
+  }, "Search")), /*#__PURE__*/_react.default.createElement("ul", {
+    className: "list_location"
+  }, isWorking && locationValue && /*#__PURE__*/_react.default.createElement("li", {
+    className: "location_value",
+    onClick: handleNewLocationClick
+  }, location)))));
 }
 
 var _default = InputSearch;
@@ -36042,11 +36150,11 @@ function NextWeather({
     weather
   } = (0, _react.useContext)(_ContextProvider.Context);
   const [nextDayWeather, setNextDayWeather] = (0, _react.useState)(null);
-  const day2 = !isLoading && weather && weather.consolidated_weather[0];
-  const day3 = !isLoading && weather && weather.consolidated_weather[1];
-  const day4 = !isLoading && weather && weather.consolidated_weather[2];
-  const day5 = !isLoading && weather && weather.consolidated_weather[3];
-  const day6 = !isLoading && weather && weather.consolidated_weather[4];
+  const day2 = !isLoading && weather && weather.consolidated_weather[1];
+  const day3 = !isLoading && weather && weather.consolidated_weather[2];
+  const day4 = !isLoading && weather && weather.consolidated_weather[3];
+  const day5 = !isLoading && weather && weather.consolidated_weather[4];
+  const day6 = !isLoading && weather && weather.consolidated_weather[5];
   const weekWeather = [day2, day3, day4, day5, day6];
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "next_weather"
@@ -36077,7 +36185,50 @@ function NextWeather({
 
 var _default = NextWeather;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ContextProvider":"components/ContextProvider.js","./DateFormat":"components/DateFormat.js","../weatherImages":"weatherImages.js"}],"components/WeatherDetails.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ContextProvider":"components/ContextProvider.js","./DateFormat":"components/DateFormat.js","../weatherImages":"weatherImages.js"}],"components/TemperatureButton.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _ContextProvider = require("./ContextProvider");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function TemperatureButton() {
+  const {
+    isLoading,
+    weather
+  } = (0, _react.useContext)(_ContextProvider.Context);
+
+  function handleCelsiusBtn(celsius) {
+    return celsius * 9 / 5 + 32;
+  }
+
+  function handleFBtn(fahrenheit) {
+    return (fahrenheit - 32) * 5 / 9;
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "temp"
+  }, /*#__PURE__*/_react.default.createElement("p", {
+    className: "temp_unit",
+    onClick: handleCelsiusBtn
+  }, "\xB0C"), /*#__PURE__*/_react.default.createElement("p", {
+    className: "temp_unit",
+    onClick: handleFBtn
+  }, "\xB0F"));
+}
+
+var _default = TemperatureButton;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","./ContextProvider":"components/ContextProvider.js"}],"components/WeatherDetails.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36108,7 +36259,9 @@ function WeatherDetails() {
 
   const images = _weatherImages.default.find(image => image.title === dailyWeather.weather_state_name);
 
-  return /*#__PURE__*/_react.default.createElement("div", null, isLoading ? /*#__PURE__*/_react.default.createElement("h2", null, "Loading...") : /*#__PURE__*/_react.default.createElement("div", {
+  return /*#__PURE__*/_react.default.createElement("div", null, isLoading ? /*#__PURE__*/_react.default.createElement("h2", {
+    className: "loading"
+  }, "Loading...") : /*#__PURE__*/_react.default.createElement("div", {
     className: "weather_detail"
   }, /*#__PURE__*/_react.default.createElement("img", {
     src: images?.image,
@@ -36142,9 +36295,13 @@ var _ContextProvider = require("././ContextProvider");
 
 var _HighlightWeather = _interopRequireDefault(require("./HighlightWeather"));
 
+var _AnotherHighlight = _interopRequireDefault(require("./AnotherHighlight"));
+
 var _InputSearch = _interopRequireDefault(require("./InputSearch"));
 
 var _NextWeather = _interopRequireDefault(require("./NextWeather"));
+
+var _TemperatureButton = _interopRequireDefault(require("./TemperatureButton"));
 
 var _WeatherDetails = _interopRequireDefault(require("./WeatherDetails"));
 
@@ -36164,12 +36321,18 @@ function App() {
     className: "content-1"
   }, /*#__PURE__*/_react.default.createElement(_InputSearch.default, null), /*#__PURE__*/_react.default.createElement(_WeatherDetails.default, null)), /*#__PURE__*/_react.default.createElement("div", {
     className: "content-2"
-  }, /*#__PURE__*/_react.default.createElement(_NextWeather.default, null), /*#__PURE__*/_react.default.createElement(_HighlightWeather.default, null)));
+  }, isLoading ? /*#__PURE__*/_react.default.createElement("h2", {
+    className: "loading"
+  }, "Loading....") : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_TemperatureButton.default, null), /*#__PURE__*/_react.default.createElement(_NextWeather.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/"
+  }, /*#__PURE__*/_react.default.createElement(_HighlightWeather.default, null)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/home/:id"
+  }, /*#__PURE__*/_react.default.createElement(_AnotherHighlight.default, null))))));
 }
 
 var _default = App;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","././ContextProvider":"components/ContextProvider.js","./HighlightWeather":"components/HighlightWeather.js","./InputSearch":"components/InputSearch.js","./NextWeather":"components/NextWeather.js","./WeatherDetails":"components/WeatherDetails.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","././ContextProvider":"components/ContextProvider.js","./HighlightWeather":"components/HighlightWeather.js","./AnotherHighlight":"components/AnotherHighlight.js","./InputSearch":"components/InputSearch.js","./NextWeather":"components/NextWeather.js","./TemperatureButton":"components/TemperatureButton.js","./WeatherDetails":"components/WeatherDetails.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -36213,7 +36376,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53089" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51054" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

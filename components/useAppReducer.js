@@ -46,7 +46,7 @@ function useAppReducer() {
         fetchedDataByLocation()
     }, [])
 
-    return [ state, dispatch, location, setLocation ]
+    return [ state, dispatch, location, setLocation, fetchedDataByLocation ]
 }
 
 export default useAppReducer

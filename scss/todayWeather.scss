@@ -1,10 +1,9 @@
 .weather_detail {
-    margin-top: 6rem;
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
-    gap: 30px;
-    text-align: center;
+    gap: 10px;
+    text-align: center;    
 }
 
 .weather_temp {

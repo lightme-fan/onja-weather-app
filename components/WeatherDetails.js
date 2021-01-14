@@ -13,7 +13,7 @@ function WeatherDetails() {
     return (
         <div>
             { isLoading ?
-                <h2>Loading...</h2> : 
+                <h2 className="loading">Loading...</h2> : 
                 <div className="weather_detail">
                     <img src={images?.image} alt={images?.title}/>
                     <h2 className="weather_temp">{dailyWeather.the_temp.toFixed(0)} &deg;C</h2>

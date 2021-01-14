@@ -1,7 +1,7 @@
 import React from 'react'
 
 function DateFormat(date) {
-    const day = ['Mon','Tue','Wed','Thu','Fri','Sat', 'Sun']   
+    const day = ['Sun', 'Mon','Tue','Wed','Thu','Fri','Sat']   
     const month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Okt','Nov','Dec'] 
 
     let dateFormat = new Date(date)

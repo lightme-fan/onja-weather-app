@@ -3,8 +3,10 @@ import { Route, Switch } from 'react-router-dom'
 
 import { Context } from '././ContextProvider'
 import HighlightWeather from './HighlightWeather'
+import AnotherHighlight from './AnotherHighlight'
 import InputSearch from './InputSearch'
 import NextWeather from './NextWeather'
+import TemperatureButton from './TemperatureButton'
 import WeatherDetails from './WeatherDetails'
 
 function App() {
@@ -17,12 +19,22 @@ function App() {
             </div>
 
             <div className="content-2">
-                <NextWeather/>
-                <HighlightWeather/>
-                {/* <Switch>
-                    <Route path="/home/:id">
-                    </Route>
-                </Switch> */}
+            {isLoading ?
+                <h2 className="loading">Loading....</h2> :
+                <>
+                    
+                    <TemperatureButton/>
+                    <NextWeather/>
+                    <Switch>
+                        <Route path="/">
+                            <HighlightWeather/>
+                        </Route>
+                        <Route path="/home/:id">
+                            <AnotherHighlight/>
+                        </Route>
+                    </Switch>
+                </>
+            }
             </div>
         </div>
     )

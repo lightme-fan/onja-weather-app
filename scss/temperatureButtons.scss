@@ -1,0 +1,17 @@
+.temp {
+    text-align: end;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-right: 1rem;
+}
+
+.temp_unit {
+    background-color: transparent;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 50%;
+    color: #fff;
+    margin: 0;
+    cursor: pointer;
+}

@@ -4,20 +4,21 @@ import { useParams } from 'react-router-dom'
 import DateFormat from './DateFormat'
 import { Context } from './ContextProvider'
 
-function HighlightWeather() {
+function AnotherHighlight() {
     let { id } = useParams()
+    console.log(id);
     const { isLoading, weather } = useContext(Context)
 
     function fixed(x) {
         return Number.parseFloat(x).toFixed(2);
     }      
 
-    const weatherDay = !isLoading && weather && weather.consolidated_weather[0]
-    
+    const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id))
+
     return (
         <>
         <div className="highlight">
-            <h3 className="highlight_heading">Today's Highlight</h3> 
+            <h3 className="highlight_heading">{DateFormat(weatherDay.applicable_date)} Highlight</h3> 
             <div className="highlight_detail">
                 <div className="highlight_content">
                     <p className="highlight_content-heading">Wind Status</p>
@@ -50,4 +51,4 @@ function HighlightWeather() {
     )
 }
 
-export default HighlightWeather
+export default AnotherHighlight
