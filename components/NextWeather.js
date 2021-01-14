@@ -20,15 +20,13 @@ function NextWeather({onClick}) {
     return (
         <>
             <div className="next_weather">
-                {isLoading ? 
-                    <h2>Loading...</h2> :
-                    !isLoading && weekWeather && weekWeather.map((day, i) => {
-                        const images = weatherImages.find(image => image.title === day.weather_state_name)                        
+                {!isLoading && weekWeather && weekWeather.map((day, i) => {
+                        const images = weatherImages.find(image => image.title === day.weather_state_name)        
                         return (
                             <div className="weather_this-day" key={day.id}>
                                 <Link to={`/home/${day.id}`} className="weather_this-day-detail" key={day.id}>
                                     <div className="day">{i === 0 ? 'Tomorrow': DateFormat(day.applicable_date)}</div>
-                                    <img src={images.image} alt={images.title}/>
+                                    <img src={images?.image} alt={images?.title}/>
                                     <div className="temperature">
                                         <div className="max_temp">{day.max_temp.toFixed(0)} &deg;C</div>
                                         <div className="min_temp">{day.min_temp.toFixed(0)} &deg;C</div>

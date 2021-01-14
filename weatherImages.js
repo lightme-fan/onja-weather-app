@@ -8,6 +8,7 @@ import Shower from './images/Shower.png'
 import Sleet from './images/Sleet.png'
 import Snow from './images/Snow.png'
 import Thunderstorm from './images/Thunderstorm.png'
+import CloudBackground from './images/Cloud-background.png'
 
 export default [
     {
@@ -58,7 +59,12 @@ export default [
     
     {
         id:9,
-        title:'Thunderstorm',
+        title:'Thunder',
         image:Thunderstorm
+    },
+    {
+        id:10,
+        title:'Cloud Background',
+        image:CloudBackground
     }
 ]

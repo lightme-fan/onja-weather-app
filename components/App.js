@@ -18,11 +18,11 @@ function App() {
 
             <div className="content-2">
                 <NextWeather/>
-                <Switch>
+                <HighlightWeather/>
+                {/* <Switch>
                     <Route path="/home/:id">
-                        <HighlightWeather/>
                     </Route>
-                </Switch>
+                </Switch> */}
             </div>
         </div>
     )

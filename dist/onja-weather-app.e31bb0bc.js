@@ -35816,15 +35816,15 @@ function HighlightWeather() {
 
   function fixed(x) {
     return Number.parseFloat(x).toFixed(2);
-  }
+  } // const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id))
 
-  const weatherDay = !isLoading && weather && weather.consolidated_weather.find(day => day.id === Number(id));
-  console.log(weatherDay);
-  return /*#__PURE__*/_react.default.createElement("div", {
+
+  const weatherDay = !isLoading && weather && weather.consolidated_weather[0];
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isLoading ? /*#__PURE__*/_react.default.createElement("h2", null, "Loading....") : /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight"
   }, /*#__PURE__*/_react.default.createElement("h3", {
     className: "highlight_heading"
-  }, (0, _DateFormat.default)(weatherDay.applicable_date), " Highlight"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Today's Highlight"), /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight_detail"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "highlight_content"
@@ -35858,7 +35858,7 @@ function HighlightWeather() {
     className: "highlight_content-heading"
   }, "Air Pressure"), /*#__PURE__*/_react.default.createElement("h4", {
     className: "highlight_content-desc"
-  }, weatherDay.air_pressure, " mb"))));
+  }, weatherDay.air_pressure, " mb")))));
 }
 
 var _default = HighlightWeather;
@@ -35930,6 +35930,8 @@ module.exports = "/Sleet.665e98b8.png";
 module.exports = "/Snow.a6a7ae2a.png";
 },{}],"images/Thunderstorm.png":[function(require,module,exports) {
 module.exports = "/Thunderstorm.f3cbf5ac.png";
+},{}],"images/Cloud-background.png":[function(require,module,exports) {
+module.exports = "/Cloud-background.d8d8ce62.png";
 },{}],"weatherImages.js":[function(require,module,exports) {
 "use strict";
 
@@ -35957,6 +35959,8 @@ var _Sleet = _interopRequireDefault(require("./images/Sleet.png"));
 var _Snow = _interopRequireDefault(require("./images/Snow.png"));
 
 var _Thunderstorm = _interopRequireDefault(require("./images/Thunderstorm.png"));
+
+var _CloudBackground = _interopRequireDefault(require("./images/Cloud-background.png"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35998,11 +36002,15 @@ var _default = [{
   image: _Snow.default
 }, {
   id: 9,
-  title: 'Thunderstorm',
+  title: 'Thunder',
   image: _Thunderstorm.default
+}, {
+  id: 10,
+  title: 'Cloud Background',
+  image: _CloudBackground.default
 }];
 exports.default = _default;
-},{"./images/Clear.png":"images/Clear.png","./images/Hail.png":"images/Hail.png","./images/HeavyCloud.png":"images/HeavyCloud.png","./images/HeavyRain.png":"images/HeavyRain.png","./images/LightCloud.png":"images/LightCloud.png","./images/LightRain.png":"images/LightRain.png","./images/Shower.png":"images/Shower.png","./images/Sleet.png":"images/Sleet.png","./images/Snow.png":"images/Snow.png","./images/Thunderstorm.png":"images/Thunderstorm.png"}],"components/NextWeather.js":[function(require,module,exports) {
+},{"./images/Clear.png":"images/Clear.png","./images/Hail.png":"images/Hail.png","./images/HeavyCloud.png":"images/HeavyCloud.png","./images/HeavyRain.png":"images/HeavyRain.png","./images/LightCloud.png":"images/LightCloud.png","./images/LightRain.png":"images/LightRain.png","./images/Shower.png":"images/Shower.png","./images/Sleet.png":"images/Sleet.png","./images/Snow.png":"images/Snow.png","./images/Thunderstorm.png":"images/Thunderstorm.png","./images/Cloud-background.png":"images/Cloud-background.png"}],"components/NextWeather.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36042,7 +36050,7 @@ function NextWeather({
   const weekWeather = [day2, day3, day4, day5, day6];
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "next_weather"
-  }, isLoading ? /*#__PURE__*/_react.default.createElement("h2", null, "Loading...") : !isLoading && weekWeather && weekWeather.map((day, i) => {
+  }, !isLoading && weekWeather && weekWeather.map((day, i) => {
     const images = _weatherImages.default.find(image => image.title === day.weather_state_name);
 
     return /*#__PURE__*/_react.default.createElement("div", {
@@ -36055,8 +36063,8 @@ function NextWeather({
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "day"
     }, i === 0 ? 'Tomorrow' : (0, _DateFormat.default)(day.applicable_date)), /*#__PURE__*/_react.default.createElement("img", {
-      src: images.image,
-      alt: images.title
+      src: images?.image,
+      alt: images?.title
     }), /*#__PURE__*/_react.default.createElement("div", {
       className: "temperature"
     }, /*#__PURE__*/_react.default.createElement("div", {
@@ -36103,8 +36111,8 @@ function WeatherDetails() {
   return /*#__PURE__*/_react.default.createElement("div", null, isLoading ? /*#__PURE__*/_react.default.createElement("h2", null, "Loading...") : /*#__PURE__*/_react.default.createElement("div", {
     className: "weather_detail"
   }, /*#__PURE__*/_react.default.createElement("img", {
-    src: images.image,
-    alt: images.title
+    src: images?.image,
+    alt: images?.title
   }), /*#__PURE__*/_react.default.createElement("h2", {
     className: "weather_temp"
   }, dailyWeather.the_temp.toFixed(0), " \xB0C"), /*#__PURE__*/_react.default.createElement("h3", {
@@ -36156,9 +36164,7 @@ function App() {
     className: "content-1"
   }, /*#__PURE__*/_react.default.createElement(_InputSearch.default, null), /*#__PURE__*/_react.default.createElement(_WeatherDetails.default, null)), /*#__PURE__*/_react.default.createElement("div", {
     className: "content-2"
-  }, /*#__PURE__*/_react.default.createElement(_NextWeather.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/home/:id"
-  }, /*#__PURE__*/_react.default.createElement(_HighlightWeather.default, null)))));
+  }, /*#__PURE__*/_react.default.createElement(_NextWeather.default, null), /*#__PURE__*/_react.default.createElement(_HighlightWeather.default, null)));
 }
 
 var _default = App;
@@ -36207,7 +36213,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50631" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53089" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
