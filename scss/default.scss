@@ -64,7 +64,15 @@ img {
         overflow-y: hidden;
     }
 
+    .content-1 .loading {
+        padding-top: 80%;
+    }
+
     .content-2 {
         overflow-y: scroll;
+    }
+
+    .content-2 .loading {
+        padding-top: 24%;
     }
 }

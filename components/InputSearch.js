@@ -44,14 +44,16 @@ function InputSearch() {
                         <form onSubmit={handleSearchSubmit} className={`search_form ${classList}`}>
                             <>
                                 <button onClick={handleClickCancel} className="cancel">X</button>
-                                <input 
-                                    className="input_search" 
-                                    type="text" 
-                                    name='location' 
-                                    value={location}  
-                                    onChange={e => setLocation(e.target.value)}
-                                />
-                                <button className="button_search">Search</button>
+                                <div className="main_search">
+                                    <input 
+                                        className="input_search" 
+                                        type="text" 
+                                        name='location' 
+                                        value={location}  
+                                        onChange={e => setLocation(e.target.value)}
+                                    />
+                                    <button className="button_search">Search</button>
+                                </div>
                             </>
                             <ul className="list_location">
                                 {isWorking && locationValue && <li className="location_value" onClick={handleNewLocationClick}>{location}</li>}

@@ -35674,6 +35674,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 const CORS_URL = 'https://cors-anywhere.herokuapp.com';
 const KEY_URL = 'https://www.metaweather.com/api/location';
 const LOCATION_URL = 'search/?query=';
+const LATTLONG = 'search/?lattlong=';
 const initialValue = {
   isLoading: true,
   weather: []
@@ -35699,10 +35700,15 @@ function reducer(state, action) {
 function useAppReducer() {
   const [state, dispatch] = (0, _react.useReducer)(reducer, initialValue);
   const [location, setLocation] = (0, _react.useState)('London');
+  const [lattLong, setLattLong] = (0, _react.useState)([]);
 
   const fetchedDataByLocation = async () => {
     const res = await (0, _axios.default)(`${CORS_URL}/${KEY_URL}/${LOCATION_URL}${location}`);
     const locationData = res.data;
+    const lattlong = locationData.map(loc => loc.latt_long);
+    const diffRes = await (0, _axios.default)(`${CORS_URL}/${KEY_URL}/${LATTLONG}${lattlong}`);
+    const lattlongData = diffRes.data;
+    setLattLong(lattlongData);
     const woeid = locationData.map(loc => loc.woeid);
     const response = await (0, _axios.default)(`${CORS_URL}/${KEY_URL}/${woeid}`);
     dispatch({
@@ -35711,6 +35717,7 @@ function useAppReducer() {
     });
   };
 
+  console.log(lattLong);
   (0, _react.useEffect)(() => {
     fetchedDataByLocation();
   }, []);
@@ -36020,7 +36027,9 @@ function InputSearch() {
   }, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("button", {
     onClick: handleClickCancel,
     className: "cancel"
-  }, "X"), /*#__PURE__*/_react.default.createElement("input", {
+  }, "X"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "main_search"
+  }, /*#__PURE__*/_react.default.createElement("input", {
     className: "input_search",
     type: "text",
     name: "location",
@@ -36028,7 +36037,7 @@ function InputSearch() {
     onChange: e => setLocation(e.target.value)
   }), /*#__PURE__*/_react.default.createElement("button", {
     className: "button_search"
-  }, "Search")), /*#__PURE__*/_react.default.createElement("ul", {
+  }, "Search"))), /*#__PURE__*/_react.default.createElement("ul", {
     className: "list_location"
   }, isWorking && locationValue && /*#__PURE__*/_react.default.createElement("li", {
     className: "location_value",
@@ -36249,24 +36258,28 @@ function TemperatureButton({
     isTypeTempCelsius,
     setIsTypeTempCelsius
   } = (0, _react.useContext)(_ContextProvider.Context);
+  const [celsiusClassName, setCelsiusClassName] = (0, _react.useState)("celsiusOnActive");
+  const [farheneitClassName, setFarheneitClassName] = (0, _react.useState)("");
+  const [isTempCelsius, setIsTempCelsius] = (0, _react.useState)(true);
 
   function handleCelsuisTempClick() {
     setIsTypeTempCelsius(true);
-    console.log('Clicked');
+    setCelsiusClassName("celsiusOnActive");
   }
 
   function handleFarheneitTempClick() {
     setIsTypeTempCelsius(false);
-    console.log('Clicked To Farheneit');
+    setCelsiusClassName("");
+    setFarheneitClassName("farheneitOnActive");
   }
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "temp"
   }, /*#__PURE__*/_react.default.createElement("button", {
-    className: "temp_unit",
+    className: `${isTempCelsius} ? ${celsiusClassName} : temp_unit`,
     onClick: handleCelsuisTempClick
   }, "\xB0C"), /*#__PURE__*/_react.default.createElement("button", {
-    className: "temp_unit",
+    className: `${isTempCelsius} ? ${farheneitClassName} : temp_unit`,
     onClick: handleFarheneitTempClick
   }, "\xB0F"));
 }
@@ -36424,7 +36437,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55241" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57372" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
