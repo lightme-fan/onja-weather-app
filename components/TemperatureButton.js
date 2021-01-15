@@ -1,21 +1,23 @@
 import React, { useContext } from 'react'
 import { Context } from './ContextProvider'
 
-function TemperatureButton() {
-    const { isLoading, weather } = useContext(Context)
-
-    function handleCelsiusBtn(celsius) {
-        return celsius * 9/5 + 32;
-    }
+function TemperatureButton({celsiusOnClick, farheneitOnClick}) {
+    const { isLoading, weather, isTypeTempCelsius, setIsTypeTempCelsius } = useContext(Context)
     
-    function handleFBtn(fahrenheit) {
-        return (fahrenheit - 32) * 5/9;
+    function handleCelsuisTempClick() {
+        setIsTypeTempCelsius(true)
+        console.log('Clicked');
+    }
+
+    function handleFarheneitTempClick() {
+        setIsTypeTempCelsius(false)
+        console.log('Clicked To Farheneit');
     }
 
     return (
         <div className="temp">
-            <p className="temp_unit" onClick={handleCelsiusBtn}>&deg;C</p>
-            <p className="temp_unit" onClick={handleFBtn}>&deg;F</p>
+            <button className="temp_unit" onClick={handleCelsuisTempClick}>&deg;C</button>
+            <button className="temp_unit" onClick={handleFarheneitTempClick}>&deg;F</button>
         </div>
     )
 }

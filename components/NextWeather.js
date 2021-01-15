@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import { Context } from './ContextProvider'
 import DateFormat from './DateFormat'
 import weatherImages from '../weatherImages'
+import celciusToFahrenet from './celsuisToFarheneit'
 
 function NextWeather({onClick}) {
-    const { isLoading, weather } = useContext(Context)
+    const { isLoading, weather, isTypeTempCelsius } = useContext(Context)
 
     const [ nextDayWeather, setNextDayWeather ] = useState(null)
 
@@ -28,8 +29,8 @@ function NextWeather({onClick}) {
                                 <div className="day">{i === 0 ? 'Tomorrow': DateFormat(day.applicable_date)}</div>
                                 <img src={images?.image} alt={images?.title}/>
                                 <div className="temperature">
-                                    <div className="max_temp">{day.max_temp.toFixed(0)} &deg;C</div>
-                                    <div className="min_temp">{day.min_temp.toFixed(0)} &deg;C</div>
+                                    <div className="max_temp">{!isTypeTempCelsius ? `${celciusToFahrenet(day.max_temp.toFixed(0))} ºF` : `${day.max_temp.toFixed(0)} ºC`}</div>
+                                    <div className="min_temp">{!isTypeTempCelsius ? `${celciusToFahrenet(day.min_temp.toFixed(0))} ºF` : `${day.min_temp.toFixed(0)} ºC`}</div>
                                 </div>
                             </Link>
                         </div>

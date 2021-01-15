@@ -29,8 +29,12 @@
     margin-left: 1rem;
     cursor: pointer;
 }
+.search_btn {
+    display: flex;
+    justify-content: space-between;
+}
 
-.search_button {
+.search_location_btn {
     padding: 0.85rem 10%;
     background-color: hsl(216deg 15% 52%);
     color: #ffffff;
@@ -42,6 +46,16 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+}
+
+.search_lattlong_btn {
+    cursor: pointer;
+    background-color: hsl(216deg 15% 52%);
+    color: #ffffff;
+    border-radius: 39%;
+    height: 33px;
+    width: 42px;
+    align-self: center;
 }
 
 .open {
@@ -56,11 +70,23 @@
     overflow-y: hidden;
 }
 
+.visible_btn {
+    visibility: visible;
+}
+
+.invisible_btn {
+    visibility: hidden;
+}
+
 .cancel {
     position: absolute;
-    top: 13px;
-    left: 90%;
+    top: 0;
+    left: 0;
     cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1.5rem;
 }
 
 .remove {

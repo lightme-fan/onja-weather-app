@@ -1,7 +1,22 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("/Roboto-Bold.4a7d3a36.woff2") format("woff2"), url("/Roboto-Bold.05b33a96.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("/Roboto-Regular.d2584ee6.woff2") format("woff2"), url("/Roboto-Regular.3e3cc457.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 body {
   background-color: #000000;
   color: #ffffff;
   margin: 0;
+  font-family: "Roboto";
 }
 
 .content-1 {
@@ -80,7 +95,12 @@ img {
   cursor: pointer;
 }
 
-.search_button {
+.search_btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search_location_btn {
   padding: 0.85rem 10%;
   background-color: #728197;
   color: #ffffff;
@@ -92,6 +112,16 @@ img {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
+}
+
+.search_lattlong_btn {
+  cursor: pointer;
+  background-color: #728197;
+  color: #ffffff;
+  border-radius: 39%;
+  height: 33px;
+  width: 42px;
+  align-self: center;
 }
 
 .open {
@@ -106,11 +136,23 @@ img {
   overflow-y: hidden;
 }
 
+.visible_btn {
+  visibility: visible;
+}
+
+.invisible_btn {
+  visibility: hidden;
+}
+
 .cancel {
   position: absolute;
-  top: 13px;
-  left: 90%;
+  top: 0;
+  left: 0;
   cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 1.5rem;
 }
 
 .remove {

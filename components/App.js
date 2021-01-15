@@ -21,8 +21,7 @@ function App() {
             <div className="content-2">
             {isLoading ?
                 <h2 className="loading">Loading....</h2> :
-                <>
-                    
+                <> 
                     <TemperatureButton/>
                     <NextWeather/>
                     <Switch>
