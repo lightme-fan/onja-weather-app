@@ -51,7 +51,6 @@ function useAppReducer() {
         dispatch({type: 'FETCH_WEATHER_DATA', data: response.data})
 
     }
-    console.log(lattLong);
     
     useEffect(() => {
         fetchedDataByLocation()

@@ -35717,7 +35717,6 @@ function useAppReducer() {
     });
   };
 
-  console.log(lattLong);
   (0, _react.useEffect)(() => {
     fetchedDataByLocation();
   }, []);
@@ -35751,7 +35750,7 @@ exports.Context = Context;
 function ContextProvider({
   children
 }) {
-  const [state, dispatch, location, setLocation, fetchedDataByLocation] = (0, _useAppReducer.default)();
+  const [state, dispatch, location, setLocation, fetchedDataByLocation, lattLong] = (0, _useAppReducer.default)();
   const {
     isLoading,
     weather
@@ -35763,6 +35762,7 @@ function ContextProvider({
       weather,
       dispatch,
       location,
+      lattLong,
       setLocation,
       fetchedDataByLocation,
       isTypeTempCelsius,
@@ -35974,7 +35974,8 @@ function InputSearch() {
     state,
     location,
     setLocation,
-    fetchedDataByLocation
+    fetchedDataByLocation,
+    lattLong
   } = (0, _react.useContext)(_ContextProvider.Context);
   const [isWorking, setIsWorking] = (0, _react.useState)(false);
   const [classList, setClassList] = (0, _react.useState)("");
@@ -36002,6 +36003,7 @@ function InputSearch() {
     setLocationValue('');
   }
 
+  console.log(lattLong);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: `search_btn ${searchBtnClassName}`
   }, /*#__PURE__*/_react.default.createElement("button", {
@@ -36385,7 +36387,7 @@ function App() {
     className: "content-2"
   }, isLoading ? /*#__PURE__*/_react.default.createElement("h2", {
     className: "loading"
-  }, "Loading....") : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_TemperatureButton.default, null), /*#__PURE__*/_react.default.createElement(_NextWeather.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+  }, "Loading...") : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_TemperatureButton.default, null), /*#__PURE__*/_react.default.createElement(_NextWeather.default, null), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/"
   }, /*#__PURE__*/_react.default.createElement(_HighlightWeather.default, null)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/home/:id"
@@ -36438,7 +36440,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60287" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60725" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

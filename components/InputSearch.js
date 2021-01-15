@@ -3,7 +3,7 @@ import React, { useState, useContext, Fragment } from 'react'
 import { Context } from './ContextProvider'
 
 function InputSearch() {
-    const { state, location, setLocation, fetchedDataByLocation } = useContext(Context)
+    const { state, location, setLocation, fetchedDataByLocation, lattLong } = useContext(Context)
     const [ isWorking, setIsWorking ] = useState(false)
     const [ classList, setClassList ] = useState("")
     const [ searchBtnClassName, setsearchBtnClassName ] = useState("")
@@ -29,6 +29,8 @@ function InputSearch() {
         fetchedDataByLocation()
         setLocationValue('')
     }
+
+    console.log(lattLong);
 
     return (
         <>
