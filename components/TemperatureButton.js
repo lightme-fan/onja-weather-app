@@ -9,6 +9,7 @@ function TemperatureButton({celsiusOnClick, farheneitOnClick}) {
     
     function handleCelsuisTempClick() {
         setIsTypeTempCelsius(true)
+        setFarheneitClassName("")
         setCelsiusClassName("celsiusOnActive")
     }
 

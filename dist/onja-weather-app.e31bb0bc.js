@@ -35721,7 +35721,7 @@ function useAppReducer() {
   (0, _react.useEffect)(() => {
     fetchedDataByLocation();
   }, []);
-  return [state, dispatch, location, setLocation, fetchedDataByLocation];
+  return [state, dispatch, location, setLocation, fetchedDataByLocation, lattLong];
 }
 
 var _default = useAppReducer;
@@ -36264,6 +36264,7 @@ function TemperatureButton({
 
   function handleCelsuisTempClick() {
     setIsTypeTempCelsius(true);
+    setFarheneitClassName("");
     setCelsiusClassName("celsiusOnActive");
   }
 
@@ -36437,7 +36438,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57372" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60287" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
