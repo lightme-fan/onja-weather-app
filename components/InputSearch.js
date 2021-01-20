@@ -3,34 +3,22 @@ import React, { useState, useContext, Fragment } from 'react'
 import { Context } from './ContextProvider'
 
 function InputSearch() {
-    const { state, location, setLocation, fetchedDataByLocation, lattLong } = useContext(Context)
-    const [ isWorking, setIsWorking ] = useState(false)
-    const [ classList, setClassList ] = useState("")
-    const [ searchBtnClassName, setsearchBtnClassName ] = useState("")
-    const [ locationValue, setLocationValue ] = useState("")
-    
-    function handleClickSearchButton() {
-        setIsWorking(true)
-        setsearchBtnClassName("invisible_btn")
-        setClassList("open")
-    }
-
-    function handleSearchSubmit(e) {
-        e.preventDefault()
-        setLocationValue(location)
-    }
-    
-    function handleClickCancel() {
-        setClassList("remove")
-        setsearchBtnClassName("visible_btn")
-    }
-    
-    function handleNewLocationClick() {        
-        fetchedDataByLocation()
-        setLocationValue('')
-    }
-
-    console.log(lattLong);
+    const { 
+        isLoading,
+        weather,
+        location,
+        setLocation,
+        fetchedDataByLocation,
+        isWorking,
+        classList,
+        searchBtnClassName,
+        inputValue,
+        locationValue,
+        handleClickCancel,
+        handleClickSearchButton,
+        handleSearchSubmit,
+        handleNewLocationClick
+    } = useContext(Context)
 
     return (
         <>
@@ -41,28 +29,26 @@ function InputSearch() {
                 </button>
             </div>
             <div className = "search_container">
-                {isWorking &&
-                    <>
-                        <form onSubmit={handleSearchSubmit} className={`search_form ${classList}`}>
-                            <>
-                                <button onClick={handleClickCancel} className="cancel">X</button>
-                                <div className="main_search">
-                                    <input 
-                                        className="input_search" 
-                                        type="text" 
-                                        name='location' 
-                                        value={location}  
-                                        onChange={e => setLocation(e.target.value)}
-                                    />
-                                    <button className="button_search">Search</button>
-                                </div>
-                            </>
-                            <ul className="list_location">
-                                {isWorking && locationValue && <li className="location_value" onClick={handleNewLocationClick}>{location}</li>}
-                            </ul>
-                        </form>
-                    </>
-                }
+                <>
+                    <form onSubmit={handleSearchSubmit} className={`search_form ${classList}`}>
+                        <>
+                            <button onClick={handleClickCancel} className="cancel">X</button>
+                            <div className="main_search">
+                                <input 
+                                    className="input_search" 
+                                    type="text" 
+                                    name='location' 
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                />
+                                <button className="button_search">Search</button>
+                            </div>
+                        </>
+                    </form>
+                </>
+                <div className="list_location">
+                {isWorking && locationValue && <button className="location_value" onClick={handleNewLocationClick}>{location}</button>}
+                </div>
             </div>
         </>
     )
