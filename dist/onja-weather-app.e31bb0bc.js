@@ -35699,26 +35699,17 @@ function reducer(state, action) {
 
 function useAppReducer() {
   const [state, dispatch] = (0, _react.useReducer)(reducer, initialValue);
-  const [location, setLocation] = (0, _react.useState)('London'); // const [ lattLong, setLattLong ] = useState([])
-
-  const [lattlong, setLattlong] = (0, _react.useState)(""); // const [ long, setLong ] = useState("")
-
-  const [data, setData] = (0, _react.useState)([]);
+  const [location, setLocation] = (0, _react.useState)('London');
+  const [lattLong, setLattLong] = (0, _react.useState)([]);
 
   const fetchedDataByLocation = async () => {
     const res = await (0, _axios.default)(`${CORS_URL}/${KEY_URL}/${LOCATION_URL}${location}`);
     const locationData = res.data;
-    setData(locationData);
-    const woeid = locationData[0]?.woeid; // const lattlongNum = locationData.map(loc => loc.latt_long);
-    // setLattlong(lattlongNum)
-    // // console.log(lattlong);
-    // // const resTow = await axios(`${CORS_URL}/${KEY_URL}`)
-    // // const secondData = resTow.data
-    // // console.log(secondData);
-    // const diffRes = await axios(`${CORS_URL}/${KEY_URL}/${LATTLONG}${lattlongNum}`)
-    // const lattlongData = diffRes.data
-    // // setLattLong(lattlongData)
-
+    const lattlong = locationData.map(loc => loc.latt_long);
+    const diffRes = await (0, _axios.default)(`${CORS_URL}/${KEY_URL}/${LATTLONG}${lattlong}`);
+    const lattlongData = diffRes.data;
+    setLattLong(lattlongData);
+    const woeid = locationData.map(loc => loc.woeid);
     const response = await (0, _axios.default)(`${CORS_URL}/${KEY_URL}/${woeid}`);
     dispatch({
       type: 'FETCH_WEATHER_DATA',
@@ -35729,7 +35720,7 @@ function useAppReducer() {
   (0, _react.useEffect)(() => {
     fetchedDataByLocation();
   }, []);
-  return [state, dispatch, location, setLocation, fetchedDataByLocation];
+  return [state, dispatch, location, setLocation, fetchedDataByLocation, lattLong];
 }
 
 var _default = useAppReducer;
@@ -35759,57 +35750,23 @@ exports.Context = Context;
 function ContextProvider({
   children
 }) {
-  const [state, dispatch, location, setLocation, fetchedDataByLocation] = (0, _useAppReducer.default)();
+  const [state, dispatch, location, setLocation, fetchedDataByLocation, lattLong] = (0, _useAppReducer.default)();
   const {
     isLoading,
     weather
   } = state;
   const [isTypeTempCelsius, setIsTypeTempCelsius] = (0, _react.useState)(true);
-  const [isWorking, setIsWorking] = (0, _react.useState)(false);
-  const [classList, setClassList] = (0, _react.useState)("");
-  const [searchBtnClassName, setsearchBtnClassName] = (0, _react.useState)("");
-  const [inputValue, setInputValue] = (0, _react.useState)("");
-  const [locationValue, setLocationValue] = (0, _react.useState)("");
-
-  function handleClickSearchButton() {
-    setIsWorking(true);
-    setsearchBtnClassName("invisible_btn");
-    setClassList("open");
-  }
-
-  function handleSearchSubmit(e) {
-    e.preventDefault();
-    setLocationValue(location);
-  }
-
-  function handleClickCancel() {
-    setClassList("remove");
-    setsearchBtnClassName("visible_btn");
-  }
-
-  function handleNewLocationClick(e) {
-    fetchedDataByLocation();
-  }
-
   return /*#__PURE__*/_react.default.createElement(Context.Provider, {
     value: {
       isLoading,
       weather,
       dispatch,
       location,
+      lattLong,
       setLocation,
       fetchedDataByLocation,
       isTypeTempCelsius,
-      setIsTypeTempCelsius,
-      isWorking,
-      classList,
-      searchBtnClassName,
-      inputValue,
-      locationValue,
-      handleClickCancel,
-      handleClickSearchButton,
-      handleSearchSubmit,
-      handleNewLocationClick
+      setIsTypeTempCelsius
     }
   }, children);
 }
@@ -36014,21 +35971,39 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function InputSearch() {
   const {
-    isLoading,
-    weather,
+    state,
     location,
     setLocation,
     fetchedDataByLocation,
-    isWorking,
-    classList,
-    searchBtnClassName,
-    inputValue,
-    locationValue,
-    handleClickCancel,
-    handleClickSearchButton,
-    handleSearchSubmit,
-    handleNewLocationClick
+    lattLong
   } = (0, _react.useContext)(_ContextProvider.Context);
+  const [isWorking, setIsWorking] = (0, _react.useState)(false);
+  const [classList, setClassList] = (0, _react.useState)("");
+  const [searchBtnClassName, setsearchBtnClassName] = (0, _react.useState)("");
+  const [locationValue, setLocationValue] = (0, _react.useState)("");
+
+  function handleClickSearchButton() {
+    setIsWorking(true);
+    setsearchBtnClassName("invisible_btn");
+    setClassList("open");
+  }
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    setLocationValue(location);
+  }
+
+  function handleClickCancel() {
+    setClassList("remove");
+    setsearchBtnClassName("visible_btn");
+  }
+
+  function handleNewLocationClick() {
+    fetchedDataByLocation();
+    setLocationValue('');
+  }
+
+  console.log(lattLong);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: `search_btn ${searchBtnClassName}`
   }, /*#__PURE__*/_react.default.createElement("button", {
@@ -36048,7 +36023,7 @@ function InputSearch() {
     d: "M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
   })))), /*#__PURE__*/_react.default.createElement("div", {
     className: "search_container"
-  }, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("form", {
+  }, isWorking && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("form", {
     onSubmit: handleSearchSubmit,
     className: `search_form ${classList}`
   }, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("button", {
@@ -36064,12 +36039,12 @@ function InputSearch() {
     onChange: e => setLocation(e.target.value)
   }), /*#__PURE__*/_react.default.createElement("button", {
     className: "button_search"
-  }, "Search"))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Search"))), /*#__PURE__*/_react.default.createElement("ul", {
     className: "list_location"
-  }, isWorking && locationValue && /*#__PURE__*/_react.default.createElement("button", {
+  }, isWorking && locationValue && /*#__PURE__*/_react.default.createElement("li", {
     className: "location_value",
     onClick: handleNewLocationClick
-  }, location))));
+  }, location))))));
 }
 
 var _default = InputSearch;
@@ -36465,7 +36440,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58289" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62309" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

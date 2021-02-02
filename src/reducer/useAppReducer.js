@@ -8,6 +8,7 @@ const LATTLONG = 'search/?lattlong='
 const initialValue = {
     isLoading: true,
     weatherData: [],
+    isTempCelsius: true,
 }
 
 function reducer(state, action) {
@@ -30,12 +31,16 @@ function reducer(state, action) {
 function useAppReducer() {
     const [ state, dispatch ] = useReducer(reducer, initialValue)
     const [ location, setLocation ] = useState('London')
+    const [ locationData, setLocationData ] = useState([])
+    const [ woeid, setWoeid ] = useState('')
 
     async function fetchData() {
         const API_URL = `${CORS_URL}/${KEY_URL}/${LOCATION_URL}${location}`
         const res = await fetch(API_URL)
         const dataRes = await res.json()
-        const woeid = dataRes[0]?.woeid;
+        const dataWoeid = dataRes[0]?.woeid;
+        setWoeid(dataWoeid)
+        setLocationData(dataRes)
 
         const response = await fetch(`${CORS_URL}/${KEY_URL}/${woeid}`)
         dispatch({type: 'FETCH_WEATHER_DATA', data: await response.json()})
@@ -44,9 +49,9 @@ function useAppReducer() {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [location, woeid])
 
-    return [ state, dispatch ]
+    return [ state, dispatch, location, setLocation, locationData, setLocationData ]
 }
 
 export default useAppReducer

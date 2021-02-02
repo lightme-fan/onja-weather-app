@@ -29772,7 +29772,173 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"src/Date/dateFormat.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"src/reducer/useAppReducer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const CORS_URL = 'https://cors-anywhere.herokuapp.com';
+const KEY_URL = 'https://www.metaweather.com/api/location';
+const LOCATION_URL = 'search/?query=';
+const LATTLONG = 'search/?lattlong=';
+const initialValue = {
+  isLoading: true,
+  weatherData: [],
+  isTempCelsius: true
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'FETCH_WEATHER_DATA':
+      {
+        return { ...state,
+          isLoading: false,
+          weatherData: action.data
+        };
+      }
+
+    default:
+      {
+        return state;
+      }
+  }
+}
+
+function useAppReducer() {
+  const [state, dispatch] = (0, _react.useReducer)(reducer, initialValue);
+  const [location, setLocation] = (0, _react.useState)('London');
+  const [locationData, setLocationData] = (0, _react.useState)([]);
+  const [woeid, setWoeid] = (0, _react.useState)('');
+
+  async function fetchData() {
+    const API_URL = `${CORS_URL}/${KEY_URL}/${LOCATION_URL}${location}`;
+    const res = await fetch(API_URL);
+    const dataRes = await res.json();
+    const dataWoeid = dataRes[0]?.woeid;
+    setWoeid(dataWoeid);
+    setLocationData(dataRes);
+    const response = await fetch(`${CORS_URL}/${KEY_URL}/${woeid}`);
+    dispatch({
+      type: 'FETCH_WEATHER_DATA',
+      data: await response.json()
+    });
+  }
+
+  (0, _react.useEffect)(() => {
+    fetchData();
+  }, [location, woeid]);
+  return [state, dispatch, location, setLocation, locationData, setLocationData];
+}
+
+var _default = useAppReducer;
+exports.default = _default;
+},{"react":"node_modules/react/index.js"}],"src/context/contextProvider.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ContextProvider = ContextProvider;
+exports.Context = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _useAppReducer = _interopRequireDefault(require("../reducer/useAppReducer"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+const Context = (0, _react.createContext)();
+exports.Context = Context;
+
+function ContextProvider({
+  children
+}) {
+  const [state, dispatch, location, setLocation, locationData, setLocationData] = (0, _useAppReducer.default)();
+  const {
+    isLoading,
+    weatherData
+  } = state;
+  const [inputValue, setInputValue] = (0, _react.useState)('');
+  const [newLocation, setNewLocation] = (0, _react.useState)([]);
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const fliteredLocation = locationData.filter(item => item.title === location);
+    console.log(fliteredLocation);
+  }
+
+  return /*#__PURE__*/_react.default.createElement(Context.Provider, {
+    value: {
+      isLoading,
+      weatherData,
+      dispatch,
+      location,
+      setLocation,
+      locationData,
+      inputValue,
+      setInputValue,
+      newLocation,
+      handleSearch
+    }
+  }, children);
+}
+},{"react":"node_modules/react/index.js","../reducer/useAppReducer":"src/reducer/useAppReducer.js"}],"src/components/search/search.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _contextProvider = require("../../context/contextProvider");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function Search() {
+  const {
+    location,
+    setLocation,
+    newLocation,
+    handleSearch,
+    inputValue,
+    setInputValue
+  } = (0, _react.useContext)(_contextProvider.Context);
+  const [searchValue, setSearchValue] = (0, _react.useState)('');
+
+  function handleChange(e) {
+    setLocation(e.target.value);
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: handleSearch
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    placeholder: "Search location",
+    name: "search",
+    value: location,
+    onChange: handleChange
+  }), /*#__PURE__*/_react.default.createElement("button", null, "Search")));
+}
+
+var _default = Search;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../../context/contextProvider":"src/context/contextProvider.js"}],"src/Date/dateFormat.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29908,109 +30074,7 @@ var _default = [{
   image: _CloudBackground.default
 }];
 exports.default = _default;
-},{"./images/Clear.png":"images/Clear.png","./images/Hail.png":"images/Hail.png","./images/HeavyCloud.png":"images/HeavyCloud.png","./images/HeavyRain.png":"images/HeavyRain.png","./images/LightCloud.png":"images/LightCloud.png","./images/LightRain.png":"images/LightRain.png","./images/Shower.png":"images/Shower.png","./images/Sleet.png":"images/Sleet.png","./images/Snow.png":"images/Snow.png","./images/Thunderstorm.png":"images/Thunderstorm.png","./images/Cloud-background.png":"images/Cloud-background.png"}],"src/reducer/useAppReducer.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-const CORS_URL = 'https://cors-anywhere.herokuapp.com';
-const KEY_URL = 'https://www.metaweather.com/api/location';
-const LOCATION_URL = 'search/?query=';
-const LATTLONG = 'search/?lattlong=';
-const initialValue = {
-  isLoading: true,
-  weatherData: []
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'FETCH_WEATHER_DATA':
-      {
-        return { ...state,
-          isLoading: false,
-          weatherData: action.data
-        };
-      }
-
-    default:
-      {
-        return state;
-      }
-  }
-}
-
-function useAppReducer() {
-  const [state, dispatch] = (0, _react.useReducer)(reducer, initialValue);
-  const [location, setLocation] = (0, _react.useState)('London');
-
-  async function fetchData() {
-    const API_URL = `${CORS_URL}/${KEY_URL}/${LOCATION_URL}${location}`;
-    const res = await fetch(API_URL);
-    const dataRes = await res.json();
-    const woeid = dataRes[0]?.woeid;
-    const response = await fetch(`${CORS_URL}/${KEY_URL}/${woeid}`);
-    dispatch({
-      type: 'FETCH_WEATHER_DATA',
-      data: await response.json()
-    });
-  }
-
-  (0, _react.useEffect)(() => {
-    fetchData();
-  }, []);
-  return [state, dispatch];
-}
-
-var _default = useAppReducer;
-exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"src/context/contextProvider.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ContextProvider = ContextProvider;
-exports.Context = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _useAppReducer = _interopRequireDefault(require("../reducer/useAppReducer"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-const Context = (0, _react.createContext)();
-exports.Context = Context;
-
-function ContextProvider({
-  children
-}) {
-  const [state, dispatch] = (0, _useAppReducer.default)();
-  const {
-    isLoading,
-    weatherData
-  } = state;
-  return /*#__PURE__*/_react.default.createElement(Context.Provider, {
-    value: {
-      isLoading,
-      weatherData,
-      dispatch
-    }
-  }, children);
-}
-},{"react":"node_modules/react/index.js","../reducer/useAppReducer":"src/reducer/useAppReducer.js"}],"node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
+},{"./images/Clear.png":"images/Clear.png","./images/Hail.png":"images/Hail.png","./images/HeavyCloud.png":"images/HeavyCloud.png","./images/HeavyRain.png":"images/HeavyRain.png","./images/LightCloud.png":"images/LightCloud.png","./images/LightRain.png":"images/LightRain.png","./images/Shower.png":"images/Shower.png","./images/Sleet.png":"images/Sleet.png","./images/Snow.png":"images/Snow.png","./images/Thunderstorm.png":"images/Thunderstorm.png","./images/Cloud-background.png":"images/Cloud-background.png"}],"node_modules/react-is/cjs/react-is.development.js":[function(require,module,exports) {
 /** @license React v16.13.1
  * react-is.development.js
  *
@@ -32240,7 +32304,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Date = exports.WeatherName = exports.Temperature = exports.Image = exports.Container = void 0;
+exports.SVG = exports.ExactDate = exports.DateSTtyle = exports.WeatherName = exports.Temperature = exports.Image = exports.Container = void 0;
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
@@ -32251,9 +32315,13 @@ const Container = _styledComponents.default.section`
     background-repeat: no-repeat;
     background-color: hsl(234deg 32% 17%);
     color: #ffffff;
+    padding: 1rem;
+    margin: 0;
+    text-align: center;
 `;
 exports.Container = Container;
 const Image = _styledComponents.default.img`
+    max-width: 202px;
     width: 100%;
 `;
 exports.Image = Image;
@@ -32262,6 +32330,7 @@ const Temperature = _styledComponents.default.div`
     font-size: 144px;
     line-height: 169px;
     color: #E7E7EB;
+    padding-top: 87px;
 `;
 exports.Temperature = Temperature;
 const WeatherName = _styledComponents.default.div`
@@ -32270,12 +32339,21 @@ const WeatherName = _styledComponents.default.div`
     line-height: 42px;
     text-align: center;
     color: #A09FB1;
+    padding: 87px 0;
 `;
 exports.WeatherName = WeatherName;
-const Date = _styledComponents.default.div`
-    
+const DateSTtyle = _styledComponents.default.div`
+    color: #A09FB1;
 `;
-exports.Date = Date;
+exports.DateSTtyle = DateSTtyle;
+const ExactDate = _styledComponents.default.p`
+    font-size: 18px;
+`;
+exports.ExactDate = ExactDate;
+const SVG = _styledComponents.default.svg`
+    width: 14px;
+`;
+exports.SVG = SVG;
 },{"styled-components":"node_modules/styled-components/dist/styled-components.browser.esm.js"}],"src/components/sidebar/sidebar.js":[function(require,module,exports) {
 "use strict";
 
@@ -32308,7 +32386,8 @@ function Sidebar({
 }) {
   const {
     isLoading,
-    weatherData
+    weatherData,
+    location
   } = (0, _react.useContext)(_contextProvider.Context);
   const today = !isLoading && weatherData && weatherData.consolidated_weather[0];
 
@@ -32317,9 +32396,23 @@ function Sidebar({
   return /*#__PURE__*/_react.default.createElement(_style.Container, restProps, children, /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, !isLoading && weatherData && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_style.Image, {
     src: icon?.image,
     alt: icon?.title
-  }), /*#__PURE__*/_react.default.createElement(_style.Temperature, null, today.the_temp.toFixed(0), " \xBAC"), /*#__PURE__*/_react.default.createElement(_style.WeatherName, null, today.weather_state_name), /*#__PURE__*/_react.default.createElement(_style.Date, null, /*#__PURE__*/_react.default.createElement("p", null, "Today . ", (0, _dateFormat.DateFormat)(new _style.Date())), /*#__PURE__*/_react.default.createElement("p", {
-    className: "weather_title"
-  }, today.title)))));
+  }), /*#__PURE__*/_react.default.createElement(_style.Temperature, null, today.the_temp.toFixed(0), " \xBAC"), /*#__PURE__*/_react.default.createElement(_style.WeatherName, null, today.weather_state_name), /*#__PURE__*/_react.default.createElement(_style.DateSTtyle, null, /*#__PURE__*/_react.default.createElement(_style.ExactDate, null, "Today \xA0 . \xA0 ", (0, _dateFormat.DateFormat)(new Date())), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_style.SVG, {
+    className: "w-6 h-6",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/_react.default.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+  }), /*#__PURE__*/_react.default.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+  })), /*#__PURE__*/_react.default.createElement("span", null, weatherData?.title))))));
 }
 
 var _default = Sidebar;
@@ -32352,6 +32445,8 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _search = _interopRequireDefault(require("./components/search/search"));
+
 var _sidebar = _interopRequireDefault(require("./components/sidebar/sidebar"));
 
 var _defaultStyle = require("./defaultStyle");
@@ -32359,12 +32454,12 @@ var _defaultStyle = require("./defaultStyle");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
-  return /*#__PURE__*/_react.default.createElement(_defaultStyle.DefaultContainer, null, /*#__PURE__*/_react.default.createElement(_sidebar.default, null));
+  return /*#__PURE__*/_react.default.createElement(_defaultStyle.DefaultContainer, null, /*#__PURE__*/_react.default.createElement(_sidebar.default, null, /*#__PURE__*/_react.default.createElement(_search.default, null)));
 }
 
 var _default = App;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./components/sidebar/sidebar":"src/components/sidebar/sidebar.js","./defaultStyle":"src/defaultStyle.js"}],"src/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./components/search/search":"src/components/search/search.js","./components/sidebar/sidebar":"src/components/sidebar/sidebar.js","./defaultStyle":"src/defaultStyle.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -32406,7 +32501,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53014" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60788" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -5,9 +5,13 @@ export const Container = styled.section`
     background-repeat: no-repeat;
     background-color: hsl(234deg 32% 17%);
     color: #ffffff;
+    padding: 1rem;
+    margin: 0;
+    text-align: center;
 `
 
 export const Image = styled.img`
+    max-width: 202px;
     width: 100%;
 `
 
@@ -16,6 +20,7 @@ export const Temperature = styled.div`
     font-size: 144px;
     line-height: 169px;
     color: #E7E7EB;
+    padding-top: 87px;
 `
 
 export const WeatherName = styled.div`
@@ -24,8 +29,17 @@ export const WeatherName = styled.div`
     line-height: 42px;
     text-align: center;
     color: #A09FB1;
+    padding: 87px 0;
 `
 
-export const Date = styled.div`
-    
+export const DateSTtyle = styled.div`
+    color: #A09FB1;
+`
+
+export const ExactDate = styled.p`
+    font-size: 18px;
+`
+
+export const SVG = styled.svg`
+    width: 14px;
 `
