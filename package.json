@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "axios": "^0.21.1",
+    "parcel-bundler": "^1.12.5",
     "re": "^0.1.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
